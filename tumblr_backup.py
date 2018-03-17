@@ -287,6 +287,12 @@ def get_style():
             f.write(css + '\n')
         return
 
+def get_text_length(post):
+    if 'reblog' in post:
+        return len(post['reblog']['comment'])
+    if 'caption' in post:
+        return len(post['caption'])
+
 
 class TumblrBackup:
 
@@ -493,6 +499,8 @@ class TumblrBackup:
                 post = post_class(p)
                 if ident_max and long(post.ident) <= ident_max:
                     return False
+                if options.textlength and get_text_length(p) < options.textlength:
+                    continue
                 if options.period:
                     if post.date >= options.p_stop:
                         continue
@@ -1014,6 +1022,9 @@ if __name__ == '__main__':
     )
     parser.add_option('-s', '--skip', type='int', default=0,
         help="skip the first SKIP posts"
+    )
+    parser.add_option('-l', '--textlength', type='int', default=0,
+        help="save only posts with minimum text length"
     )
     parser.add_option('-p', '--period', help="limit the backup to PERIOD"
         " ('y', 'm', 'd' or YYYY[MM[DD]])"
