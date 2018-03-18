@@ -53,7 +53,7 @@ TAGLINK_FMT = 'http://%(domain)s/tagged/%(tag)s'
 
 # exit codes
 EXIT_SUCCESS    = 0
-EXIT_NOPOSTS    = 1
+# EXIT_NOPOSTS    = 1
 # EXIT_OPTPARSE = 2 -- returned by module optparse
 EXIT_INTERRUPT  = 3
 EXIT_ERRORS     = 4
@@ -303,8 +303,6 @@ class TumblrBackup:
     def exit_code(self):
         if self.errors:
             return EXIT_ERRORS
-        if self.total_count == 0:
-            return EXIT_NOPOSTS
         return EXIT_SUCCESS
 
     def build_index(self):
